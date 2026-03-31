@@ -15,3 +15,4 @@ pub mod local_search;
 pub mod meta_details;
 pub mod player;
 pub mod streaming_server;
+pub mod watch_together;

@@ -7,6 +7,7 @@ use crate::models::local_search::Searchable;
 use crate::models::streaming_server::PlaybackDevice;
 use crate::runtime::EnvError;
 use crate::types::addon::{Descriptor, Manifest, ResourceRequest, ResourceResponse};
+use crate::types::watch_together::WTServerMessage;
 use crate::types::api::{
     APIRequest, AuthRequest, DataExportResponse, DatastoreRequest, GetModalResponse,
     GetNotificationResponse, LinkCodeResponse, LinkDataResponse, SeekLogRequest, SkipGapsRequest,
@@ -173,4 +174,11 @@ pub enum Internal {
     /// Mark Season as watched (meta item)
     /// Mark move as watched (meta item)
     WatchedSendResult(MetaItemId, Result<RatingSendResponse, EnvError>),
+    // ─── Watch Together ──────────────────────────────────────────────
+    /// A message was received from the watch-together WebSocket server.
+    WatchTogetherServerMessage(WTServerMessage),
+    /// The WebSocket connection status changed.
+    WatchTogetherConnectionChanged(crate::types::watch_together::ConnectionStatus),
+    /// The WebSocket connection encountered an error.
+    WatchTogetherConnectionError(String),
 }

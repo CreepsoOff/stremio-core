@@ -12,6 +12,7 @@ pub mod server_urls;
 pub mod streaming_server;
 pub mod streams;
 pub mod torrent;
+pub mod watch_together;
 
 // Re-export of stremio_watched_bitfield crate
 pub mod watched_bitfield {

@@ -27,6 +27,7 @@ use crate::{
             StatisticsRequest as StreamingServerStatisticsRequest,
         },
         streams::StreamItemState,
+        watch_together::{RoomMode, SyncActionKind, WatchTogetherContentType},
     },
 };
 
@@ -262,6 +263,38 @@ pub enum ActionSearch {
     },
 }
 
+/// Actions for the WatchTogether model (synchronized viewing sessions).
+#[derive(Clone, Deserialize, Debug)]
+#[serde(tag = "action", content = "args")]
+pub enum ActionWatchTogether {
+    /// Create a new watch-together room for the given content.
+    CreateRoom {
+        content_id: String,
+        content_type: WatchTogetherContentType,
+        display_name: String,
+        server_url: String,
+    },
+    /// Join an existing room by room ID or invite code.
+    JoinRoom {
+        room_id: String,
+        display_name: String,
+        server_url: String,
+    },
+    /// Leave the current room.
+    LeaveRoom,
+    /// Send a playback sync action to the room.
+    SyncAction {
+        action: SyncActionKind,
+        time: u64,
+    },
+    /// Send a chat message in the room.
+    SendChat { text: String },
+    /// Send a reaction emoji in the room.
+    SendReaction { emoji: String, time: u64 },
+    /// Change the room mode (host only).
+    SetMode { mode: RoomMode },
+}
+
 /// Action messages
 ///
 /// Those messages are meant to be dispatched only by the users of the
@@ -278,6 +311,7 @@ pub enum Action {
     MetaDetails(ActionMetaDetails),
     StreamingServer(ActionStreamingServer),
     Player(ActionPlayer),
+    WatchTogether(ActionWatchTogether),
     Load(ActionLoad),
     Search(ActionSearch),
     Unload,

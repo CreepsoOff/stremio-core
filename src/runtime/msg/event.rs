@@ -4,6 +4,7 @@ use crate::types::api::AuthRequest;
 use crate::types::library::LibraryItemId;
 use crate::types::profile::{AuthKey, Settings, UID};
 use crate::types::resource::MetaItemId;
+use crate::types::watch_together::{ConnectionStatus, Room, SyncActionKind};
 use serde::Serialize;
 use url::Url;
 
@@ -154,6 +155,21 @@ pub enum Event {
     },
     StreamingServerUrlsPushedToStorage {
         uid: UID,
+    },
+    // ─── Watch Together Events ─────────────────────────────────────────
+    WatchTogetherRoomJoined {
+        room: Room,
+    },
+    WatchTogetherRoomLeft,
+    WatchTogetherConnectionChanged {
+        status: ConnectionStatus,
+    },
+    WatchTogetherSyncReceived {
+        action: SyncActionKind,
+        time: u64,
+    },
+    WatchTogetherError {
+        message: String,
     },
     Error {
         error: CtxError,
